@@ -1,14 +1,20 @@
 package com.schedulingapp;
 
+import dao.JDBC;
+import dao.contactQuery;
+import dao.customerQuery;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Main extends Application {
     @Override
@@ -20,9 +26,14 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+        JDBC.openConnection();
+
+
         Locale locale =  Locale.getDefault();
         String language =  locale.getLanguage();
+
         if (language.equals("en")){
             System.out.print(language);
             System.out.printf(ZoneId.systemDefault().getId());
@@ -33,6 +44,10 @@ public class Main extends Application {
         }
 
 
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        String s = dtf.format(LocalDateTime.now());
+        System.out.println(s);
 
         launch();
     }

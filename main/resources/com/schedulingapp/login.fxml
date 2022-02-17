@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Login">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.loginController">
    <children>
       <GridPane layoutY="178.0" prefHeight="79.0" prefWidth="450.0">
         <columnConstraints>
@@ -38,8 +38,8 @@
       </GridPane>
       <HBox layoutX="203.0" layoutY="326.0" spacing="35.0">
          <children>
-            <Button fx:id="exitButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Exit" />
-          <Button fx:id="loginButton" mnemonicParsing="false" prefWidth="80.0" text="Login" />
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitProgram" prefHeight="26.0" prefWidth="80.0" text="Exit" />
+          <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefWidth="80.0" text="Login" />
          </children>
       </HBox>
       <Label fx:id="zoneID" layoutX="341.0" layoutY="134.0" text="America" />

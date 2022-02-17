@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mainMenuController">
+   <children>
+      <VBox layoutX="203.0" layoutY="86.0" spacing="50.0">
+         <children>
+            <Button fx:id="customerButton" mnemonicParsing="false" onAction="#customerAction" prefHeight="26.0" prefWidth="95.0" text="Customer" />
+            <Button fx:id="appointButton" mnemonicParsing="false" onAction="#appointAction" text="Appointments" />
+            <Button fx:id="reportsButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="Reports" />
+         </children>
+      </VBox>
+      <Label fx:id="welcomeUser" alignment="CENTER" layoutX="5.0" layoutY="24.0" prefHeight="42.0" prefWidth="490.0" text="Welcome blank">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
