@@ -10,13 +10,28 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ *
+ * Main implements GUI-based scheduling desktop application which allows the user to log in, create, delete and modify customers & appointments.
+ * Also, it allows the user to view information about customers and appointments.
+ *
+ * JavaDoc located in JavaDoc folder
+ *
+ * @author ronneildobbins
+ */
 public class Main extends Application {
+
+    /**
+     * Displays Login Screen
+     * @param stage main stage of application
+     * @throws IOException Unsuccessful loading scene
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
@@ -26,29 +41,28 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     *
+     * Launches application. Establishes a connection with the database.
+     * Set the language for the login screen and determines user locale and Zone Id.
+     *
+     * @param args The command line parameters.
+     * @throws SQLException if it's unsuccessful in establishing a connection to the database.
+     *
+     */
     public static void main(String[] args) throws SQLException {
 
+        //Attempts to connect to the database
         JDBC.openConnection();
-
 
         Locale locale =  Locale.getDefault();
         String language =  locale.getLanguage();
 
-        if (language.equals("en")){
-            System.out.print(language);
-            System.out.printf(ZoneId.systemDefault().getId());
-        }
-        else{
-            System.out.print(language);
-            System.out.printf(ZoneId.systemDefault().getId());
-        }
+        //prints language and ZoneId to the command terminal
+        System.out.println(language);
+        System.out.println(ZoneId.systemDefault().getId());
 
-
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        String s = dtf.format(LocalDateTime.now());
-        System.out.println(s);
-
+        //launches application
         launch();
     }
 }

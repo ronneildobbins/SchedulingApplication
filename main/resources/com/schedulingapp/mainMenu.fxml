@@ -12,7 +12,7 @@
          <children>
             <Button fx:id="customerButton" mnemonicParsing="false" onAction="#customerAction" prefHeight="26.0" prefWidth="95.0" text="Customer" />
             <Button fx:id="appointButton" mnemonicParsing="false" onAction="#appointAction" text="Appointments" />
-            <Button fx:id="reportsButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="Reports" />
+            <Button fx:id="reportsButton" mnemonicParsing="false" onAction="#reportAction" prefHeight="26.0" prefWidth="95.0" text="Reports" />
          </children>
       </VBox>
       <Label fx:id="welcomeUser" alignment="CENTER" layoutX="5.0" layoutY="24.0" prefHeight="42.0" prefWidth="490.0" text="Welcome blank">

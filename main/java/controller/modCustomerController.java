@@ -12,19 +12,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Add Customer Controller that can add a customer
+ * Modify Customer Controller that can modify a customer
  *
  * @author Ronneil Dobbins
  */
-public class addCustomerController implements Initializable {
+public class modCustomerController implements Initializable {
+
+    /**
+     * the id text field
+     */
+    @FXML
+    private TextField idField;
 
     /**
      * the name text field
@@ -50,7 +56,6 @@ public class addCustomerController implements Initializable {
     @FXML
     private TextField phoneField;
 
-
     /**
      * the country combo box
      */
@@ -75,16 +80,18 @@ public class addCustomerController implements Initializable {
     @FXML
     private Button saveButton;
 
+
     /**
      *
-     * Attempts to add customer. Checks to make sure the required information is formatted and valid. Then forward
-     * that information to the customerQuery which inserts the appointment to the database. After completing it returns
-     * the user to the customer view screen. All checks have error messages. (Error message and information alerts are in here)
+     * Attempts to modify customer. Checks to make sure the required information is formatted and valid. Then forward
+     * that information to the customerQuery which updates the appointment on the database. After completing it returns
+     * the user to the customer view screen. All checks have error messages and if an Exception were to occur it has a
+     * custom error message. (Error message and information alerts are in here)
      *
      * @throws IOException if it fails to load the customer view screen
      */
     @FXML
-    private void addCustomer() throws IOException {
+    private void modifyCustomer() throws IOException {
 
 
         String name = nameField.getText();
@@ -112,13 +119,15 @@ public class addCustomerController implements Initializable {
 
                 int divID = divisionQuery.getDivID((String) divisionCombo.getValue());
 
-                boolean success = customerQuery.addCustomer(name, address, postal, phone, divID);
+                int id = Integer.parseInt(idField.getText());
+
+                boolean success = customerQuery.modifyCustomer(id, name, address, postal, phone, divID);
 
                 if (success) {
                     Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);
                     alertSuccess.setTitle("Success");
-                    alertSuccess.setHeaderText("Create Customer Success");
-                    alertSuccess.setContentText("The attempt to create a new customer has succeed. Please press the OK button to be redirected to customer view");
+                    alertSuccess.setHeaderText("Modify Customer Success");
+                    alertSuccess.setContentText("The attempt to modify a new customer has succeed. Please press the OK button to be redirected to customer view");
                     Optional<ButtonType> result = alertSuccess.showAndWait();
                     if(result.get() == ButtonType.OK){
 
@@ -139,8 +148,8 @@ public class addCustomerController implements Initializable {
                 } else {
                     Alert alertError = new Alert(Alert.AlertType.ERROR);
                     alertError.setTitle("Error");
-                    alertError.setHeaderText("Create Customer Failed");
-                    alertError.setContentText("The attempt to create a new customer has failed. Please Try Again !");
+                    alertError.setHeaderText("Modify Customer Failed");
+                    alertError.setContentText("The attempt to modify a new customer has failed. Please Try Again !");
                     alertError.showAndWait();
                 }
             }
@@ -148,11 +157,11 @@ public class addCustomerController implements Initializable {
     }
 
     /**
-     * When pressed the cancel add customer action takes you back to the customer view menu
+     * When pressed the cancel mod customer action takes you back to the customer view menu
      * @throws IOException if it can't load the customer view screen
      */
     @FXML
-    private void cancelAddCustomer() throws IOException {
+    private void cancelModCustomer() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("customerView.fxml"));
         Parent root = fxmlLoader.load();
@@ -189,6 +198,9 @@ public class addCustomerController implements Initializable {
 
             divisionCombo.setItems(divisionQuery.getAllDivision(countryid));
             divisionCombo.setDisable(false);
+
+            divisionCombo.setValue(null);
+
         }catch (NullPointerException e){
 
         }
@@ -196,15 +208,32 @@ public class addCustomerController implements Initializable {
 
     }
 
+
     /**
-     * The addCustomerController initialization populates the country combo box with items from each database.
+     * The modCustomerController initialization set the values based on the selected customer the user wants to modify.
+     * It populates the country combo box with items from each database.
      * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        Customer selectedCustomer = customerViewController.getModCustomer();
+
         countryCombo.setItems(countryQuery.getAllCountries());
+
+
+        idField.setText(String.valueOf(selectedCustomer.getCustomer_id()));
+        nameField.setText(selectedCustomer.getCustomerName());
+        addressField.setText(selectedCustomer.getCustomerAddress());
+        postalField.setText(selectedCustomer.getCustomerPostal());
+        phoneField.setText(selectedCustomer.getCustomerPhone());
+
+        countryCombo.setValue(selectedCustomer.getCountry());
+
+        divisionCombo.setValue(selectedCustomer.getDivision());
+
+
     }
 
     }

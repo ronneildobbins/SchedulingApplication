@@ -34,7 +34,7 @@
       <ButtonBar layoutX="669.0" layoutY="432.0" prefHeight="62.0" prefWidth="250.0">
         <buttons>
           <Button fx:id="addButton" mnemonicParsing="false" onAction="#addAction" text="Add" />
-            <Button fx:id="modifyButton" layoutX="140.0" layoutY="17.0" mnemonicParsing="false" text="Modify" />
+            <Button fx:id="modifyButton" layoutX="140.0" layoutY="17.0" mnemonicParsing="false" onAction="#modAction" text="Modify" />
             <Button fx:id="deleteButton" layoutX="140.0" layoutY="17.0" mnemonicParsing="false" onAction="#deleteAction" text="Delete" />
         </buttons>
       </ButtonBar>

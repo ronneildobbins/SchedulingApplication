@@ -8,10 +8,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Handles all country query to database.
+ *
+ * @author ronneildobbins
+ */
 public class countryQuery {
 
+    /**
+     * A list of the names of all the countries
+     */
     private static ObservableList<String> allCountries =  FXCollections.observableArrayList();
 
+    /**
+     * Gets a country based on division id
+     * @param divID the division id
+     * @return the String of the country
+     * @throws SQLException If a problem with the database occurs
+     */
     public static String getCountry(int divID) throws SQLException {
 
         String sql = "SELECT * FROM client_schedule.first_level_divisions WHERE Division_ID = " + divID;
@@ -42,6 +56,10 @@ public class countryQuery {
         return null;
     }
 
+    /**
+     * Gets a list of names of all countries based on the database.
+     * @return An observable list of String of names of all countries in the database.
+     */
     public static ObservableList<String> getAllCountries(){
         allCountries.clear();
 

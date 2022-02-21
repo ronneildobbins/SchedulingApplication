@@ -5,7 +5,6 @@ import dao.appointmentQuery;
 import dao.contactQuery;
 import dao.customerQuery;
 import dao.userQuery;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,33 +13,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.converter.DateTimeStringConverter;
+import model.Appointment;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
+
 
 /**
- * Add Appointment Controller that can add appointments
+ * Modify Appointment Controller that can modify appointments
  *
  * @author Ronneil Dobbins
  */
-public class addAppointmentController implements Initializable {
+public class modAppointmentController implements Initializable {
 
+
+    /**
+     * The id field (is disabled)
+     */
+    @FXML
+    private TextField idField;
 
     /**
      * the title field
      */
     @FXML
     private TextField titleField;
-
 
     /**
      * the description field
@@ -65,7 +65,6 @@ public class addAppointmentController implements Initializable {
      */
     @FXML
     private ComboBox contactComboBox;
-
 
     /**
      * the user combo box
@@ -116,27 +115,11 @@ public class addAppointmentController implements Initializable {
     private Button saveButton;
 
     /**
-     * After selecting an Start Date, it enables the Start Time text Field
-     */
-    @FXML
-    private void selectedStartDate() {
-        startTime.setDisable(false);
-    }
-
-    /**
-     * After selecting an End Date, it enables the End Time text Field
-     */
-    @FXML
-    private void selectedEndDate() {
-        endTime.setDisable(false);
-    }
-
-    /**
-     * When pressed the cancel add appointment action takes you back to the appointment view menu
+     * When pressed the cancel mod appointment action takes you back to the appointment view menu
      * @throws IOException if it can't load the appointment view screen
      */
     @FXML
-    private void cancelAddAppt() throws IOException {
+    private void cancelModAppt() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("appointmentView.fxml"));
         Parent root = fxmlLoader.load();
@@ -154,14 +137,14 @@ public class addAppointmentController implements Initializable {
 
     /**
      *
-     * Attempts to add appointment. Checks to make sure the required information is formatted and valid. Then forward
+     * Attempts to modify appointment. Checks to make sure the required information is formatted and valid. Then forward
      * that information to the appointmentQuery which updates the appointment on the database. After completing it returns
      * the user to the appointment view screen. All checks have error messages and if an Exception were to occur it has a
      * custom error message
      *
      */
     @FXML
-    private void addAppointment() {
+    private void modifyAppointment() {
 
         try {
             String title = titleField.getText();
@@ -208,8 +191,10 @@ public class addAppointmentController implements Initializable {
 
                                 if(startDateTime.isBefore(endDateTime)) {
                                     int customerId = customerQuery.getCustomerID(customer);
+                                    int id = Integer.parseInt(idField.getText());
 
-                                    boolean isOverlap = appointmentQuery.customerApptOverlap(customerId, startDateTime, endDateTime);
+
+                                    boolean isOverlap = appointmentQuery.customerModApptOverlap(customerId, startDateTime, endDateTime, id);
 
                                     if (isOverlap) {
                                         displayAlert(4);
@@ -218,15 +203,16 @@ public class addAppointmentController implements Initializable {
                                         int userId = userQuery.getUserId(user);
                                         int contactId = contactQuery.getContactId(contact);
 
+
                                         //ADD Appointment
-                                        boolean success = appointmentQuery.addAppointment(title, desc, location, type, userId,
+                                        boolean success = appointmentQuery.modAppointment(id, title, desc, location, type, userId,
                                                 contactId, customerId, startDateTime, endDateTime);
 
                                         if (success) {
                                             Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);
                                             alertSuccess.setTitle("Success");
-                                            alertSuccess.setHeaderText("Create Appointment Success");
-                                            alertSuccess.setContentText("The attempt to create appointment has succeed. Please press the OK button to be redirected to appoitment view");
+                                            alertSuccess.setHeaderText("Modify Appointment Success");
+                                            alertSuccess.setContentText("The attempt to modify the appointment has succeed. Please press the OK button to be redirected to appoitment view");
                                             Optional<ButtonType> result = alertSuccess.showAndWait();
                                             if (result.get() == ButtonType.OK) {
 
@@ -297,13 +283,7 @@ public class addAppointmentController implements Initializable {
 
         LocalTime closeTime = LocalTime.of(localClosedHours.getHour(), localClosedHours.getMinute());
 
-        if(inputTime.isAfter(openTime) && inputTime.isBefore(closeTime))
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
+        return inputTime.isAfter(openTime) && inputTime.isBefore(closeTime);
 
 
     }
@@ -327,7 +307,7 @@ public class addAppointmentController implements Initializable {
     /**
      * Display error messages based on alert types Contains Lambda expression to
      * switch alert types
-     * @param alertType alertType is used to determine which error to display
+     * @param alertType  alertType is used to determine which error to display
      */
     private void displayAlert(int alertType){
 
@@ -337,7 +317,7 @@ public class addAppointmentController implements Initializable {
             case 1 -> {
                 alertError.setTitle("Error");
                 alertError.setHeaderText("Blank or Empty Fields");
-                alertError.setContentText("Please fill in all fields to create appointment");
+                alertError.setContentText("Please fill in all fields to modify appointment");
                 alertError.showAndWait();
             }
             case 2 -> {
@@ -361,8 +341,8 @@ public class addAppointmentController implements Initializable {
             }
             case 5 -> {
                 alertError.setTitle("Error");
-                alertError.setHeaderText("Appointment Creation Failed");
-                alertError.setContentText("Creation of Appointment failed. Please Try Again");
+                alertError.setHeaderText("Appointment Modification Failed");
+                alertError.setContentText("Modification of Appointment failed. Please Try Again");
                 alertError.showAndWait();
             }
             case 6 -> {
@@ -376,7 +356,8 @@ public class addAppointmentController implements Initializable {
     }
 
     /**
-     * The addAppointmentController initialization populates the contact, user,  and customer combo box with items from each database.
+     * The modAppointmentController initialization set the values based on the selected appointment the user wants to modify.
+     * It populates the contact, user,  and customer combo box with items from each database.
      * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
@@ -389,6 +370,31 @@ public class addAppointmentController implements Initializable {
 
         customerComboBox.setItems(customerQuery.getCustomersNames());
 
+        Appointment selectedApp = appointmentViewController.getModAppoint();
+
+        idField.setText(String.valueOf(selectedApp.getApptId()));
+        titleField.setText(selectedApp.getApptTitle());
+        descField.setText(selectedApp.getApptDescription());
+        locationField.setText(selectedApp.getApptLocation());
+        typeField.setText(selectedApp.getApptType());
+
+        LocalDateTime start = selectedApp.getStartTime();
+        LocalDate start_date = start.toLocalDate();
+        LocalTime start_time = start.toLocalTime();
+        startDate.setValue(start_date);
+        startTime.setText(start_time.toString());
+
+        LocalDateTime end = selectedApp.getEndTime();
+        LocalDate end_date = end.toLocalDate();
+        LocalTime end_time = end.toLocalTime();
+        endDate.setValue(end_date);
+        endTime.setText(end_time.toString());
+
+        customerComboBox.setValue(customerQuery.getCustomerName(selectedApp.getCustomerID()));
+
+        contactComboBox.setValue(contactQuery.getContact(selectedApp.getContactID()));
+
+        userComboBox.setValue(userQuery.getUserName(selectedApp.getUserID()));
 
 
 

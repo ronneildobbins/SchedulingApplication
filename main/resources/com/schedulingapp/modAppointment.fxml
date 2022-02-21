@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.addAppointmentController">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.modAppointmentController">
    <children>
       <GridPane layoutX="18.0" layoutY="97.0" prefHeight="206.0" prefWidth="765.0">
         <columnConstraints>
@@ -83,7 +83,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField disable="true" promptText="Appointment ID Auto Generated" GridPane.columnIndex="1" />
+            <TextField fx:id="idField" disable="true" promptText="Appointment ID Auto Generated" GridPane.columnIndex="1" />
             <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -91,8 +91,8 @@
             <ComboBox fx:id="contactComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="userComboBox" prefHeight="26.0" prefWidth="169.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <ComboBox fx:id="customerComboBox" prefHeight="26.0" prefWidth="171.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <DatePicker fx:id="startDate" onAction="#selectedStartDate" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <DatePicker fx:id="endDate" onAction="#selectedEndDate" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <DatePicker fx:id="startDate" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <DatePicker fx:id="endDate" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Label text="Start Time" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
@@ -105,19 +105,19 @@
             </Label>
             <Label text=" HH: mm " GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Label text="HH: mm " GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <TextField fx:id="startTime" disable="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <TextField fx:id="endTime" disable="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <TextField fx:id="startTime" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <TextField fx:id="endTime" GridPane.columnIndex="5" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Label layoutX="315.0" layoutY="29.0" text="Add Appointment">
+      <Label layoutX="302.0" layoutY="29.0" text="Modify Appointment">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
       <HBox layoutX="574.0" layoutY="340.0" spacing="35.0">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAddAppt" prefHeight="30.0" prefWidth="75.0" text="Cancel" />
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#addAppointment" prefHeight="30.0" prefWidth="75.0" text="Save" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelModAppt" prefHeight="30.0" prefWidth="75.0" text="Cancel" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#modifyAppointment" prefHeight="30.0" prefWidth="75.0" text="Save" />
          </children>
       </HBox>
    </children>
