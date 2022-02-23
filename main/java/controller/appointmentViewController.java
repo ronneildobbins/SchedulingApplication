@@ -405,7 +405,7 @@ public class appointmentViewController implements Initializable {
             alertConfirm.setTitle("Appointment Removal Check");
             alertConfirm.setHeaderText("Are you sure ?");
             alertConfirm.setContentText("All associated appointments will also be delete. Please review delete request as this cant be undone.\n\n" +
-                    "Appointment Id: " + selectedItem.getApptId() + "\n Appointment Title: " + selectedItem.getApptTitle());
+                    "Appointment Id: " + selectedItem.getApptId() + "\n Appointment Title: " + selectedItem.getApptTitle() + "\n Appointment Type: " + selectedItem.getApptType());
             Optional<ButtonType> result = alertConfirm.showAndWait();
             if (result.get() == ButtonType.OK) {
                 //Appoint delete

@@ -231,6 +231,7 @@ public class modAppointmentController implements Initializable {
 
                                             }
                                         } else {
+                                            System.out.println("NOOOO");
                                             displayAlert(5);
                                         }
 

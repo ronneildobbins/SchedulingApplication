@@ -280,8 +280,8 @@ public class appointmentQuery {
             ps.setTimestamp(5, Timestamp.valueOf(start));
             ps.setTimestamp(6, Timestamp.valueOf(end));
             ps.setInt(7, customerId);
-            ps.setInt(8, contactId);
-            ps.setInt(9, userId);
+            ps.setInt(8, userId);
+            ps.setInt(9, contactId);
             int rowAffected = ps.executeUpdate();
             if (rowAffected == 1) {
                 return true;
@@ -322,8 +322,8 @@ public class appointmentQuery {
             ps.setTimestamp(5, Timestamp.valueOf(start));
             ps.setTimestamp(6, Timestamp.valueOf(end));
             ps.setInt(7, customerId);
-            ps.setInt(8, contactId);
-            ps.setInt(9, userId);
+            ps.setInt(8, userId);
+            ps.setInt(9, contactId);
             ps.setInt(10, id);
             int rowAffected = ps.executeUpdate();
             if (rowAffected == 1) {

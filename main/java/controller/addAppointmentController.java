@@ -368,7 +368,7 @@ public class addAppointmentController implements Initializable {
             case 6 -> {
                 alertError.setTitle("Error");
                 alertError.setHeaderText("End Time before Start Time");
-                alertError.setContentText("Please ensure end date & time are before start date and time");
+                alertError.setContentText("Please ensure end date & time are after start date and time");
                 alertError.showAndWait();
             }
         }
